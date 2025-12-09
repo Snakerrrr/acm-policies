@@ -12,6 +12,7 @@ policyDefaults:
           operator: In
           values:
             - cluster-acs
+
 policies:
   - name: install-compliance-operator
     disabled: false
@@ -24,8 +25,7 @@ policies:
       - path: compliance-operator/profiles/cis
 
   - name: run-pci-scan
-    # Por ahora lo dejamos deshabilitado; luego Ansible tocará este flag.
-    disabled: true
+    disabled: false
     manifests:
       - path: compliance-operator/profiles/pci
 
