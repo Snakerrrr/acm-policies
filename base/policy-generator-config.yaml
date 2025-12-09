@@ -20,12 +20,12 @@ policies:
       - path: compliance-operator/install
 
   - name: run-cis-scan
-    disabled: false
+    disabled: "false"
     manifests:
       - path: compliance-operator/profiles/cis
 
   - name: run-pci-scan
-    disabled: false
+    disabled: "true"
     manifests:
       - path: compliance-operator/profiles/pci
 
