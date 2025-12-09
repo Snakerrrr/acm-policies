@@ -1,17 +1,17 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: compliance-operator-cis-stg
+  name: compliance-operator-policies
 policyDefaults:
-  namespace: policies               # namespace en el hub para las Policies
-  remediationAction: inform         # luego se puede cambiar a enforce
+  namespace: policies
+  remediationAction: inform
   placement:
-    labelSelector:                  # clusters que recibirán estas policies
+    labelSelector:
       matchExpressions:
         - key: environment
           operator: In
           values:
-            - local-cluster                  # solo clusters con label environment=stg
+            - cluster-acs
 policies:
   - name: install-compliance-operator
     disabled: false
@@ -22,4 +22,10 @@ policies:
     disabled: false
     manifests:
       - path: compliance-operator/profiles/cis
+
+  - name: run-pci-scan
+    # Por ahora lo dejamos deshabilitado; luego Ansible tocará este flag.
+    disabled: true
+    manifests:
+      - path: compliance-operator/profiles/pci
 
