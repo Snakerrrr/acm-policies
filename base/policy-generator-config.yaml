@@ -15,17 +15,19 @@ policyDefaults:
 policies:
   - name: install-compliance-operator
     disabled: false
+    remediationAction: enforce
     manifests:
       - path: compliance-operator/install
 
   - name: run-cis-scan
     disabled: false
+    remediationAction: enforce
     manifests:
       - path: compliance-operator/profiles/cis
 
   - name: run-pci-scan
-    # Por ahora lo dejamos deshabilitado; luego Ansible tocará este flag.
-    disabled: true
+    disabled: false
+    remediationAction: enforce
     manifests:
       - path: compliance-operator/profiles/pci
 
