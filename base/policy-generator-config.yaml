@@ -22,7 +22,6 @@ policies:
       - path: compliance-operator/install
 
   - name: run-cis-scan
-    remediationAction: inform
     disabled: false
     remediationAction: enforce
     manifests:
@@ -31,7 +30,6 @@ policies:
   - name: run-pci-scan
     disabled: false
     remediationAction: enforce
-    remediationAction: inform
     disabled: false
     manifests:
       - path: compliance-operator/profiles/pci
