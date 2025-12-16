@@ -2,6 +2,7 @@ apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
   name: compliance-operator-policies
+
 policyDefaults:
   namespace: policies
   remediationAction: inform
@@ -16,16 +17,18 @@ policyDefaults:
 policies:
   - name: install-compliance-operator
     disabled: false
+    remediationAction: enforce
     manifests:
       - path: compliance-operator/install
 
   - name: run-cis-scan
-    disabled: "false"
+    remediationAction: inform
+    disabled: false
     manifests:
       - path: compliance-operator/profiles/cis
 
   - name: run-pci-scan
-    disabled: "true"
+    remediationAction: inform
+    disabled: false
     manifests:
       - path: compliance-operator/profiles/pci
-
