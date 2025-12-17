@@ -22,13 +22,13 @@ policies:
       - path: compliance-operator/install
 
   - name: run-cis-scan
+    remediationAction: inform
     disabled: false
-    remediationAction: enforce
     manifests:
       - path: compliance-operator/profiles/cis
 
   - name: run-pci-scan
+    remediationAction: inform
     disabled: false
-    remediationAction: enforce
     manifests:
       - path: compliance-operator/profiles/pci
