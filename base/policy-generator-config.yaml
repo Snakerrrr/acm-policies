@@ -2,7 +2,7 @@ apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
   name: compliance-operator-policies
-  # Última actualización: 2025-12-19T19:34:50Z
+  # Última actualización: 2025-12-19T19:48:44Z
 
 policyDefaults:
   namespace: policies
