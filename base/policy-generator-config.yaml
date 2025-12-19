@@ -2,18 +2,18 @@ apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
   name: compliance-operator-policies
-  # Última actualización: 2025-12-19T17:15:25Z
+  # Última actualización: 2025-12-19T17:26:04Z
 
 policyDefaults:
   namespace: policies
-  remediationAction: inform
+  remediationAction: enforce
   placement:
     labelSelector:
       matchExpressions:
         - key: environment
           operator: In
           values:
-            - cluster-acs
+            - cluster-2
 
 policies:
   - name: install-compliance-operator
@@ -23,13 +23,13 @@ policies:
       - path: compliance-operator/install
 
   - name: run-cis-scan
-    remediationAction: inform
+    remediationAction: enforce
     disabled: false
     manifests:
       - path: compliance-operator/profiles/cis
 
   - name: run-pci-scan
-    remediationAction: inform
+    remediationAction: enforce
     disabled: false
     manifests:
       - path: compliance-operator/profiles/pci
