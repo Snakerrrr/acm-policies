@@ -1,0 +1,23 @@
+---
+# ScanSetting para escaneos periódicos de compliance
+# Este recurso configura el schedule para que los escaneos se ejecuten automáticamente
+apiVersion: compliance.openshift.io/v1alpha1
+kind: ScanSetting
+metadata:
+  name: default
+  namespace: openshift-compliance
+spec:
+  # Schedule en formato cron (minuto hora día mes día-semana)
+  # Ejemplo: "0 1 * * *" = Todos los días a la 1:00 AM
+  # Ejemplo: "0 */6 * * *" = Cada 6 horas
+  # Ejemplo: "0 0 * * 0" = Todos los domingos a medianoche
+  schedule: "0 1 * * *"
+  
+  # Roles a escanear (master y worker)
+  roles:
+    - master
+    - worker
+  
+  # Configuración adicional opcional
+    
+  
