@@ -4,20 +4,24 @@
 apiVersion: compliance.openshift.io/v1alpha1
 kind: ScanSetting
 metadata:
-  name: default
+  # Te recomiendo usar un nombre distinto a 'default' para evitar conflictos
+  name: periodic-daily
   namespace: openshift-compliance
-spec:
-  # Schedule en formato cron (minuto hora día mes día-semana)
-  # Ejemplo: "0 1 * * *" = Todos los días a la 1:00 AM
-  # Ejemplo: "0 */6 * * *" = Cada 6 horas
-  # Ejemplo: "0 0 * * 0" = Todos los domingos a medianoche
-  schedule: "0 2 * * *"
-  
-  # Roles a escanear (master y worker)
-  roles:
-    - master
-    - worker
-  
-  # Configuración adicional opcional
-    
-  
+# --- INICIO DE CONFIGURACIÓN (Sin 'spec:') ---
+schedule: "0 2 * * *"
+
+roles:
+  - master
+  - worker
+
+# Configuración de almacenamiento (Muy importante para producción)
+rawResultStorage:
+  size: "1Gi"      # Tamaño del disco para guardar reportes
+  rotation: 3      # Guardar solo los últimos 3 escaneos (ahorra espacio)
+  pvAccessModes:
+    - ReadWriteOnce
+
+# Opcionales recomendados
+maxRetryOnTimeout: 3
+showNotApplicable: false
+strictNodeScan: true
