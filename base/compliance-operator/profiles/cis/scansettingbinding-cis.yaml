@@ -13,5 +13,5 @@ profiles:
 settingsRef:
   apiGroup: compliance.openshift.io/v1alpha1
   kind: ScanSetting
-  name: default
+  name: periodic-daily
 
