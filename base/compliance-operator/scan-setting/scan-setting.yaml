@@ -1,0 +1,23 @@
+apiVersion: compliance.openshift.io/v1alpha1
+kind: ScanSetting
+metadata:
+  name: default
+  namespace: openshift-compliance
+spec:
+  # El Cron: Todos los días a la 1:00 AM
+  schedule: "0 1 * * *"
+  maxRetryOnTimeout: 3
+  rawResultStorage:
+    nodeSelector:
+      node-role.kubernetes.io/master: ""
+    pvAccessModes:
+      - ReadWriteOnce
+    rotation: 3
+    size: 1Gi
+  roles:
+    - master
+    - worker
+  scanTolerations:
+    - operator: Exists
+  showNotApplicable: false
+  strictNodeScan: true
