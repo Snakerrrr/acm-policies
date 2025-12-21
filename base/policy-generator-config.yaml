@@ -2,7 +2,7 @@ apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
   name: compliance-operator-policies
-  # Última actualización: 2025-12-21T18:33:10Z
+  # Última actualización: 2025-12-21T18:42:40Z
 
 policyDefaults:
   namespace: policies
@@ -26,7 +26,7 @@ policies:
     remediationAction: enforce
     disabled: false
     manifests:
-      - path: base/compliance-operator/scan-setting
+      - path: compliance-operator/scan-setting
 
   - name: run-cis-scan
     remediationAction: enforce
