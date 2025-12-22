@@ -2,43 +2,37 @@ apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
   name: compliance-operator-policies
-  # Última actualización: 2025-12-22T14:25:06Z
+  # Última actualización: 2025-12-22T14:28:12Z
 
 policyDefaults:
   namespace: policies
-  # Por defecto usamos 'enforce' para asegurar que la CONFIGURACIÓN exista
-  remediationAction: enforce 
+  remediationAction: inform
   placement:
     labelSelector:
       matchLabels:
-        # Recuerda etiquetar tus clusters en el Hub con: compliance=enabled
         compliance: "enabled"
 
 policies:
-  # 1. Instalar el Operador (Debe ser enforce para que se instale)
   - name: install-compliance-operator
     disabled: false
     remediationAction: enforce
     manifests:
       - path: compliance-operator/install
 
-  # 2. Configurar el Cron/Schedule (Debe ser enforce para crear el objeto ScanSetting)
   - name: scan-setting-periodic
+    remediationAction: inform
     disabled: false
-    remediationAction: enforce
     manifests:
       - path: compliance-operator/scan-setting
 
-  # 3. Vincular Perfil CIS al Cron (Debe ser enforce para activar el escaneo)
   - name: run-cis-scan
+    remediationAction: inform
     disabled: false
-    remediationAction: enforce
     manifests:
       - path: compliance-operator/profiles/cis
 
-  # 4. Vincular Perfil PCI al Cron (Debe ser enforce para activar el escaneo)
   - name: run-pci-scan
+    remediationAction: inform
     disabled: false
-    remediationAction: enforce
     manifests:
       - path: compliance-operator/profiles/pci
