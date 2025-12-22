@@ -2,15 +2,16 @@ apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
   name: compliance-operator-policies
-  # Última actualización: 2025-12-22T14:28:12Z
+  # Esta fecha se actualiza sola con Ansible
+  # Última actualización: 2025-12-22T14:31:21Z
 
 policyDefaults:
   namespace: policies
-  remediationAction: inform
+  remediationAction: enforce   # <--- CAMBIO 1: Forzar creación
   placement:
     labelSelector:
       matchLabels:
-        compliance: "enabled"
+        compliance: "enabled"  # <--- CAMBIO 2: Usar etiqueta dinámica
 
 policies:
   - name: install-compliance-operator
@@ -20,19 +21,21 @@ policies:
       - path: compliance-operator/install
 
   - name: scan-setting-periodic
-    remediationAction: inform
     disabled: false
+    remediationAction: enforce
     manifests:
       - path: compliance-operator/scan-setting
 
+  # Mantener la lógica dinámica de Ansible para activar/desactivar escaneos
   - name: run-cis-scan
-    remediationAction: inform
-    disabled: false
+    remediationAction: enforce
+    # Aquí Ansible decide si activa o desactiva según tus variables
+    disabled: False
     manifests:
       - path: compliance-operator/profiles/cis
 
   - name: run-pci-scan
-    remediationAction: inform
-    disabled: false
+    remediationAction: enforce
+    disabled: False
     manifests:
       - path: compliance-operator/profiles/pci
