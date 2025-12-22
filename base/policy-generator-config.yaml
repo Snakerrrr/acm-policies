@@ -3,7 +3,7 @@ kind: PolicyGenerator
 metadata:
   name: compliance-operator-policies
   # Esta fecha se actualiza sola con Ansible
-  # Última actualización: 2025-12-22T14:37:29Z
+  # Última actualización: 2025-12-22T14:42:35Z
 
 policyDefaults:
   namespace: policies
