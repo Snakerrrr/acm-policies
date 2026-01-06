@@ -1,27 +1,21 @@
 ---
-# ScanSetting para escaneos periódicos de compliance
-# Este recurso configura el schedule para que los escaneos se ejecuten automáticamente
 apiVersion: compliance.openshift.io/v1alpha1
 kind: ScanSetting
 metadata:
-  # Te recomiendo usar un nombre distinto a 'default' para evitar conflictos
   name: "periodic-daily"
   namespace: "openshift-compliance"
-# --- INICIO DE CONFIGURACIÓN (Sin 'spec:') ---
 schedule: "0 1 * * *"
 
 roles:
   - master
   - worker
 
-# Configuración de almacenamiento (Muy importante para producción)
 rawResultStorage:
-  size: "1Gi"      # Tamaño del disco para guardar reportes
-  rotation: 3      # Guardar solo los últimos 3 escaneos (ahorra espacio)
+  size: "1Gi"
+  rotation: 3
   pvAccessModes:
     - ReadWriteOnce
 
-# Opcionales recomendados
 maxRetryOnTimeout: 3
 showNotApplicable: false
 strictNodeScan: true

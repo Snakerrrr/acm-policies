@@ -51,8 +51,6 @@ acm-policies/
 ├── base/
 │   ├── kustomization.yaml                    # Configuración de Kustomize
 │   ├── policy-generator-config.yaml          # Configuración del Policy Generator
-│   ├── placements/
-│   │   └── placement-compliance-prod.yaml   # Placement para clusters de producción
 │   └── compliance-operator/
 │       ├── install/
 │       │   └── compliance-operator.yaml       # Instalación del operador
@@ -80,7 +78,9 @@ Define las políticas de ACM que se generarán. Incluye:
 **Configuración por defecto:**
 - Namespace: `policies`
 - Remediation Action: `enforce`
-- Placement: Clusters con label `compliance: enabled`
+- Placement: Clusters con label `compliance: enabled` (definido inline en `policyDefaults`)
+
+**Nota**: El Policy Generator crea automáticamente un PlacementRule basado en la configuración `placement` definida en `policyDefaults`. No se requiere un archivo de Placement separado.
 
 ### 2. Compliance Operator Installation
 
@@ -121,29 +121,31 @@ Vincula los perfiles:
 - `ocp4-pci-dss` (control plane)
 - `ocp4-pci-dss-node` (nodos)
 
-### 5. Placement (`placement-compliance-prod.yaml`)
-
-Selecciona clusters basándose en labels:
-
-```yaml
-matchLabels:
-  environment: cluster-acs
-```
-
 ## ⚙️ Configuración
 
 ### Personalizar el Placement
 
-Edita `base/placements/placement-compliance-prod.yaml` para ajustar qué clusters reciben las políticas:
+El placement se define inline en `base/policy-generator-config.yaml` dentro de `policyDefaults`. Para cambiar qué clusters reciben las políticas, edita el selector:
 
 ```yaml
-spec:
-  predicates:
-    - requiredClusterSelector:
-        labelSelector:
-          matchLabels:
-            environment: cluster-acs  # Cambia según tus necesidades
+policyDefaults:
+  placement:
+    labelSelector:
+      matchLabels:
+        "compliance": "enabled"  # Cambia el label según tus necesidades
 ```
+
+**Ejemplo**: Si quieres usar un label diferente:
+
+```yaml
+policyDefaults:
+  placement:
+    labelSelector:
+      matchLabels:
+        "environment": "production"
+```
+
+**Nota**: Si necesitas un Placement más complejo (con múltiples selectores, preferencias, etc.), puedes crear un archivo Placement separado y referenciarlo en las políticas individuales usando `placementRef`.
 
 ### Personalizar el Schedule
 
@@ -191,12 +193,10 @@ cd acm-policies/acm-policies
 Etiqueta los clusters que deben recibir las políticas:
 
 ```bash
-# Opción 1: Usando el label por defecto
 kubectl label managedcluster <nombre-cluster> compliance=enabled
-
-# Opción 2: Usando el label del placement personalizado
-kubectl label managedcluster <nombre-cluster> environment=cluster-acs
 ```
+
+**Nota**: Si personalizaste el selector en `policy-generator-config.yaml`, usa el label correspondiente.
 
 ### 3. Aplicar las Políticas
 
@@ -218,8 +218,8 @@ kubectl apply -k base/
 # Verificar políticas creadas
 kubectl get policies -n policies
 
-# Verificar placement
-kubectl get placement -n policies
+# Verificar placement rules generados
+kubectl get placementrule -n policies
 
 # Verificar instalación del Compliance Operator
 kubectl get subscription -n openshift-compliance
@@ -279,22 +279,28 @@ kubectl get complianceremediation -n openshift-compliance
 
 ### Selector por Defecto
 
-Las políticas usan el siguiente selector por defecto:
+Las políticas usan el siguiente selector definido en `policyDefaults`:
 
 ```yaml
-labelSelector:
-  matchLabels:
-    compliance: enabled
+placement:
+  labelSelector:
+    matchLabels:
+      compliance: enabled
 ```
 
-### Placement Personalizado
+El Policy Generator crea automáticamente un `PlacementRule` basado en esta configuración para cada política.
 
-El archivo `placement-compliance-prod.yaml` define un placement específico:
+### Personalizar el Selector
 
-```yaml
-matchLabels:
-  environment: cluster-acs
-```
+Para cambiar qué clusters reciben las políticas:
+
+1. **Opción 1 - Modificar el selector inline** (recomendado para casos simples):
+   Edita `base/policy-generator-config.yaml` y cambia el label en `policyDefaults.placement`.
+
+2. **Opción 2 - Placement separado** (para casos complejos):
+   Si necesitas lógica más compleja (múltiples selectores, preferencias, etc.), puedes:
+   - Crear un archivo Placement separado
+   - Referenciarlo en políticas individuales usando `placementRef`
 
 **Nota**: Asegúrate de que tus clusters tengan los labels apropiados antes de aplicar las políticas.
 
@@ -307,9 +313,10 @@ matchLabels:
    kubectl get managedcluster --show-labels
    ```
 
-2. Verifica el placement:
+2. Verifica el placement rule generado:
    ```bash
-   kubectl describe placement placement-compliance-prod -n policies
+   kubectl get placementrule -n policies
+   kubectl describe placementrule <nombre-politica>-placement -n policies
    ```
 
 3. Verifica el binding de políticas:

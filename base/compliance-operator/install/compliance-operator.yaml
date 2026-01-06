@@ -18,7 +18,7 @@ metadata:
   name: compliance-operator
   namespace: openshift-compliance
 spec:
-  channel: stable           # ajusta según canal que usen en tu cluster
+  channel: stable
   name: compliance-operator
   source: redhat-operators
   sourceNamespace: openshift-marketplace

@@ -2,7 +2,6 @@ apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
   name: compliance-operator-policies
-  # ELIMINADO: ansible_date_time (Causa probable del crash)
 
 policyDefaults:
   namespace: policies
@@ -10,34 +9,25 @@ policyDefaults:
   placement:
     labelSelector:
       matchLabels:
-        # Usamos sintaxis segura para diccionarios
         "compliance": "enabled"
 
 policies:
   - name: install-compliance-operator
     disabled: false
-    remediationAction: enforce
     manifests:
       - path: compliance-operator/install
 
   - name: scan-setting-periodic
     disabled: false
-    remediationAction: enforce
     manifests:
       - path: compliance-operator/scan-setting
 
-  # --- ESCANEO CIS ---
   - name: run-cis-scan
-    remediationAction: enforce
-    # Usamos filtro 'bool' para asegurar que sea true/false (minúscula)
-    disabled: False
+    disabled: false
     manifests:
       - path: compliance-operator/profiles/cis
 
-  # --- ESCANEO PCI ---
   - name: run-pci-scan
-    remediationAction: enforce
-    # Usamos filtro 'bool' para asegurar que sea true/false (minúscula)
-    disabled: False
+    disabled: false
     manifests:
       - path: compliance-operator/profiles/pci
