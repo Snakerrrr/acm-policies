@@ -7,11 +7,10 @@ metadata:
 policyDefaults:
   namespace: policies
   remediationAction: enforce
-  placement:
-    labelSelector:
-      matchLabels:
-        # Usamos sintaxis segura para diccionarios
-        "compliance": "enabled"
+  placementRef:
+    name: placement-compliance-enabled
+    kind: Placement
+    apiVersion: cluster.open-cluster-management.io/v1alpha1
 
 policies:
   - name: install-compliance-operator
@@ -29,15 +28,13 @@ policies:
   # --- ESCANEO CIS ---
   - name: run-cis-scan
     remediationAction: enforce
-    # Usamos filtro 'bool' para asegurar que sea true/false (minúscula)
-    disabled: False
+    disabled: false
     manifests:
       - path: compliance-operator/profiles/cis
 
   # --- ESCANEO PCI ---
   - name: run-pci-scan
     remediationAction: enforce
-    # Usamos filtro 'bool' para asegurar que sea true/false (minúscula)
-    disabled: False
+    disabled: false
     manifests:
       - path: compliance-operator/profiles/pci
