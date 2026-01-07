@@ -7,10 +7,10 @@ metadata:
 policyDefaults:
   namespace: policies
   remediationAction: enforce
-  placementRef:
-    name: placement-compliance-enabled
-    kind: Placement
-    apiVersion: cluster.open-cluster-management.io/v1alpha1
+  placement:
+    labelSelector:
+      matchLabels:
+        compliance: enabled
 
 policies:
   - name: install-compliance-operator

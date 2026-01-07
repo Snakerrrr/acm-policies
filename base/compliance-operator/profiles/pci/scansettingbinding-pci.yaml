@@ -6,6 +6,7 @@ metadata:
 profiles:
   - apiGroup: compliance.openshift.io/v1alpha1
     kind: Profile
+<<<<<<< HEAD
     name: ocp4-pci-dss        # o el nombre del Profile PCI que tengas disponible
   - apiGroup: compliance.openshift.io/v1alpha1
     kind: Profile
@@ -14,4 +15,14 @@ settingsRef:
   apiGroup: compliance.openshift.io/v1alpha1
   kind: ScanSetting
   name: periodic-daily               # o un ScanSetting custom si ya definiste uno
+=======
+    name: ocp4-pci-dss
+  - apiGroup: compliance.openshift.io/v1alpha1
+    kind: Profile
+    name: ocp4-pci-dss-node
+settingsRef:
+  apiGroup: compliance.openshift.io/v1alpha1
+  kind: ScanSetting
+  name: periodic-daily
+>>>>>>> 150bcca33d1bbabb2242a821aad1c7c4d43e8f50
 
