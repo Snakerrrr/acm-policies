@@ -72,7 +72,7 @@ Configura los escaneos periódicos:
 
 - **Schedule**: `0 1 * * *` (diario a la 1:00 AM)
 - **Roles**: Escanea nodos `master` y `worker`
-- **Almacenamiento**: 
+- **Almacenamiento**:
   - Tamaño: 1Gi
   - Rotación: Mantiene los últimos 3 escaneos
 - **Configuración adicional**: Reintentos, modo estricto, etc.
@@ -82,14 +82,14 @@ Configura los escaneos periódicos:
 #### CIS Profile (`base/compliance-operator/profiles/cis/scansettingbinding-cis.yaml`)
 
 Vincula los perfiles CIS al ScanSetting:
-- `ocp4-cis`: Perfil CIS para el cluster
-- `ocp4-cis-node`: Perfil CIS para los nodos
+- `ocp4-cis-1-7`: Perfil CIS versión 1.7 para el cluster
+- `ocp4-cis-node-1-7`: Perfil CIS versión 1.7 para los nodos
 
 #### PCI-DSS Profile (`base/compliance-operator/profiles/pci/scansettingbinding-pci.yaml`)
 
 Vincula los perfiles PCI-DSS al ScanSetting:
-- `ocp4-pci-dss`: Perfil PCI-DSS para el cluster
-- `ocp4-pci-dss-node`: Perfil PCI-DSS para los nodos
+- `ocp4-pci-dss-4-0`: Perfil PCI-DSS versión 4.0 para el cluster
+- `ocp4-pci-dss-node-4-0`: Perfil PCI-DSS versión 4.0 para los nodos
 
 ## 🚀 Uso
 
@@ -147,7 +147,14 @@ placement:
 
 1. **Remediation Action**: Está configurado como `enforce`, lo que significa que las políticas aplicarán cambios automáticamente. Si prefieres solo monitorear, cambia a `inform`.
 
-2. **Perfiles PCI-DSS**: Verifica que los perfiles `ocp4-pci-dss` y `ocp4-pci-dss-node` estén disponibles en tu cluster. Pueden requerir suscripciones adicionales.
+2. **Perfiles de Compliance**: Verifica que los perfiles específicos estén disponibles en tu cluster:
+   - `ocp4-cis-1-7` y `ocp4-cis-node-1-7` (CIS)
+   - `ocp4-pci-dss-4-0` y `ocp4-pci-dss-node-4-0` (PCI-DSS)
+
+   Los perfiles PCI-DSS pueden requerir suscripciones adicionales. Puedes verificar los perfiles disponibles con:
+   ```bash
+   kubectl get profiles -n openshift-compliance
+   ```
 
 3. **Almacenamiento**: Los escaneos generan resultados que se almacenan en PVs. Asegúrate de tener suficiente espacio de almacenamiento.
 
@@ -166,6 +173,12 @@ kubectl get pods -n openshift-compliance
 
 # Ver escaneos programados
 kubectl get scansettingbindings -n openshift-compliance
+
+# Ver perfiles de compliance disponibles
+kubectl get profiles -n openshift-compliance
+
+# Ver resultados de escaneos
+kubectl get compliancescans -n openshift-compliance
 ```
 
 ## 📚 Referencias
