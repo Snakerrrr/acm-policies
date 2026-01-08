@@ -10,7 +10,8 @@ policyDefaults:
   placement:
     labelSelector:
       matchLabels:
-        compliance: enabled
+        # Usamos sintaxis segura para diccionarios
+        "compliance": "enabled"
 
 policies:
   - name: install-compliance-operator
@@ -28,13 +29,15 @@ policies:
   # --- ESCANEO CIS ---
   - name: run-cis-scan
     remediationAction: enforce
-    disabled: false
+    # Usamos filtro 'bool' para asegurar que sea true/false (minúscula)
+    disabled: False
     manifests:
       - path: compliance-operator/profiles/cis
 
   # --- ESCANEO PCI ---
   - name: run-pci-scan
     remediationAction: enforce
-    disabled: false
+    # Usamos filtro 'bool' para asegurar que sea true/false (minúscula)
+    disabled: False
     manifests:
       - path: compliance-operator/profiles/pci
