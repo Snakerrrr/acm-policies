@@ -6,10 +6,10 @@ metadata:
 profiles:
   - apiGroup: compliance.openshift.io/v1alpha1
     kind: Profile
-    name: ocp4-pci-dss        # o el nombre del Profile PCI que tengas disponible
+    name: ocp4-pci-dss-4-0
   - apiGroup: compliance.openshift.io/v1alpha1
     kind: Profile
-    name: ocp4-pci-dss-node   # idem arriba
+    name: ocp4-pci-dss-node-4-0
 settingsRef:
   apiGroup: compliance.openshift.io/v1alpha1
   kind: ScanSetting
