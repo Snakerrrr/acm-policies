@@ -2,7 +2,7 @@
 
 Este repositorio contiene políticas de Advanced Cluster Management (ACM) para desplegar y configurar el Compliance Operator de Red Hat OpenShift, permitiendo realizar escaneos de cumplimiento (compliance) automatizados en clusters OpenShift.
 
-## 📋 Descripción General
+## Descripción General
 
 El proyecto utiliza **Kustomize** y el **Policy Generator** de ACM para gestionar políticas que:
 
@@ -10,7 +10,7 @@ El proyecto utiliza **Kustomize** y el **Policy Generator** de ACM para gestiona
 2. **Configuran escaneos periódicos** de compliance
 3. **Ejecutan perfiles de compliance** (CIS y PCI-DSS) de forma automatizada
 
-## 🏗️ Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 acm-policies/
@@ -30,7 +30,7 @@ acm-policies/
 └── README.md
 ```
 
-## 🔧 Componentes Principales
+## Componentes Principales
 
 ### 1. Kustomization (`base/kustomization.yaml`)
 
@@ -91,7 +91,7 @@ Vincula los perfiles PCI-DSS al ScanSetting:
 - `ocp4-pci-dss-4-0`: Perfil PCI-DSS versión 4.0 para el cluster
 - `ocp4-pci-dss-node-4-0`: Perfil PCI-DSS versión 4.0 para los nodos
 
-## 🚀 Uso
+## Uso
 
 ### Prerrequisitos
 
@@ -113,7 +113,7 @@ kubectl apply -k base/
 
 O si usas GitOps con ArgoCD/Flux, este repositorio puede ser referenciado directamente.
 
-## ⚙️ Configuración
+## Configuración
 
 ### Modificar el Schedule de Escaneos
 
@@ -143,7 +143,7 @@ placement:
       "compliance": "enabled"  # Cambia según tus necesidades
 ```
 
-## 📝 Notas Importantes
+## Notas Importantes
 
 1. **Remediation Action**: Está configurado como `enforce`, lo que significa que las políticas aplicarán cambios automáticamente. Si prefieres solo monitorear, cambia a `inform`.
 
@@ -160,7 +160,7 @@ placement:
 
 4. **Canal del Operador**: El canal `stable` puede variar según la versión de OpenShift. Verifica el canal correcto en tu entorno.
 
-## 🔍 Verificación
+## Verificación
 
 Para verificar que las políticas se aplicaron correctamente:
 
@@ -181,8 +181,3 @@ kubectl get profiles -n openshift-compliance
 kubectl get compliancescans -n openshift-compliance
 ```
 
-## 📚 Referencias
-
-- [Red Hat Compliance Operator Documentation](https://docs.openshift.com/container-platform/latest/security/compliance_operator/compliance-operator-understanding.html)
-- [ACM Policy Generator](https://github.com/stolostron/policy-generator-plugin)
-- [OpenShift Compliance Profiles](https://complianceascode.github.io/compliance-operator/)
